@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenagateQrCode", "GenagateQrCode\GenagateQrCode.csproj", "{0F1B20EB-41F8-47C4-BF98-E4DB79BEBB7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeManager", "QrCodeManager\QrCodeManager.csproj", "{F7979D1A-27F9-47CA-9158-D0101A4DA653}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeManagerUserControl", "QrCodeManager\QrCodeManagerUserControl.csproj", "{F7979D1A-27F9-47CA-9158-D0101A4DA653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
