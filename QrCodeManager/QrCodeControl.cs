@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using QRCoder;
 using System.Security.Cryptography;
 using System.Data.SqlClient;
