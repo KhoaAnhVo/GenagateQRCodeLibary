@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenagateQrCode", "GenagateQrCode\GenagateQrCode.csproj", "{0F1B20EB-41F8-47C4-BF98-E4DB79BEBB7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeManager", "QrCodeManager\QrCodeManager.csproj", "{F7979D1A-27F9-47CA-9158-D0101A4DA653}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F1B20EB-41F8-47C4-BF98-E4DB79BEBB7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F1B20EB-41F8-47C4-BF98-E4DB79BEBB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F1B20EB-41F8-47C4-BF98-E4DB79BEBB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F1B20EB-41F8-47C4-BF98-E4DB79BEBB7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7979D1A-27F9-47CA-9158-D0101A4DA653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7979D1A-27F9-47CA-9158-D0101A4DA653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7979D1A-27F9-47CA-9158-D0101A4DA653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7979D1A-27F9-47CA-9158-D0101A4DA653}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {82A9E316-DE30-45DE-9E96-53AAA1BF5E48}
+	EndGlobalSection
+EndGlobal
