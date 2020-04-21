@@ -2,12 +2,22 @@
 using QrCodeManager;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace ConsoleCoreTest
 {
     class Program
     {
-        static void Main(string[] args)
+       static bool Esc()
+        {
+            return false;
+            if (Console.ReadKey().Key == ConsoleKey.Escape)
+            {
+                return true;
+            }
+        }
+        public static void Main(string[] args)
         {
             QrCodeControl QrControl = new QrCodeControl();
             Console.WriteLine("Start");
@@ -16,12 +26,12 @@ namespace ConsoleCoreTest
             string result="";
             List<string> list_result;
             #region FORTEST
+            if (Console.ReadKey().Key == ConsoleKey.Escape)
+            {
+                printF1("ok");
+            }
+            printF1(cmd);
 
-        //printF1("Range input: ");
-        //cmd = Console.ReadLine();
-        //List<string> RS = QrControl.ListQRCodeBuff(cmd);
-        //var RSTb = QrControl.QRCodeTable(RS, false);
-        //PrintTable(RSTb);
             #endregion FORTEST
 
 
@@ -34,12 +44,7 @@ namespace ConsoleCoreTest
             cmd = Console.ReadLine().ToLower();
             switch (cmd)
             {
-                case "help":
-                    printF1("HELP\n");
-                    goto HELP;
-
-
-                case "csc": //Create single code
+                case "csc":
                     printF1("Create a single code\n");
                     goto CSC;
                 
@@ -48,10 +53,15 @@ namespace ConsoleCoreTest
                     goto CRC;
                 case "clc":
                     printF1("Create a list range code\n");
-                    goto CLC; ;
+                    goto CLC;
+                case "mic":
+                    printF1("Modified code info\n");
+                    goto MIC;
 
 
-
+                case "help":
+                    printF1("HELP\n");
+                    goto HELP;
                 case "exit":
                     printF1("EXIT");
                     goto EXIT;
@@ -64,6 +74,31 @@ namespace ConsoleCoreTest
             goto CMD;
         #endregion COMMAND
 
+        MIC:
+            #region Modified info code
+            //print code info present
+            Console.WriteLine("     Unique char array format: <[1](6 chars) [2](1 char) [3](1 char) [4](1 char) [5](2char) [6](9 chars)>");
+            Console.WriteLine("     Code: "+QrControl.GetSingleCode(QrControl.RangeNumber));
+            cmd = QrControl.DateCreate;
+            printF2("[1] Date Create", cmd);
+
+            cmd = QrControl.UseCase;
+            printF2("[2] Use Case", cmd);
+
+            cmd = QrControl.ProType;
+            printF2("[3] Product type", cmd);
+
+            cmd = QrControl.LineNumber;
+            printF2("[4] Line No", cmd);
+
+            cmd = QrControl.CreateNo;
+            printF2("[5] Create No", cmd);
+
+            cmd = QrControl.RangeNumber;
+            printF2("[6] Range", cmd);
+
+            goto CMD;
+        #endregion Modified info code
         HELP:
             #region HELP
             string help = 
@@ -100,7 +135,6 @@ namespace ConsoleCoreTest
             goto CMD;
         #endregion CreateRangeCode
 
-
         CLC:
             #region Create list code
             printF1("Index of code: ");
@@ -116,6 +150,10 @@ namespace ConsoleCoreTest
         static void printF1(string txt)
         {
             Console.Write(string.Format(">> {0}", txt));
+        }
+        static void printF2(string title, string info)
+        {
+            Console.WriteLine(string.Format("       {0}:    {1}",title,info));
         }
         static void printResult(string result)
         {

@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.IO;
 
-namespace QrCodeManager
+namespace QrCodeManagernet
 {
     public class QrCodeControl
     {

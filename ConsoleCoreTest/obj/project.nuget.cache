@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qXPTFGGJus03LYU31TAdUw7ujui+ZtJaKBaEH4qQadIxIMnmc6uD1jnUzqgJwM+lOUsroDZ2Bw7JPRRjqWudfA==",
+  "dgSpecHash": "kqsOBaDEvvV33iNLlhBmlMvmDsr/4PEq0DlamMutIuJTVzHTqyvKY3ZgXJcYslIUz98fk3jTA9pvdwVAZ5fVRg==",
   "success": true,
   "projectFilePath": "K:\\VuLeTech\\Proj_Syngenta\\SourceCode\\Library\\GenagateQrCodeLib\\ConsoleCoreTest\\ConsoleCoreTest.csproj",
   "expectedPackageFiles": [
@@ -12,7 +12,8 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.targets\\2.0.0\\microsoft.netcore.targets.2.0.0.nupkg.sha512",
     "C:\\Users\\KHOAVO\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0-preview.2.20160.6\\microsoft.win32.systemevents.5.0.0-preview.2.20160.6.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\KHOAVO\\.nuget\\packages\\system.drawing.common\\5.0.0-preview.2.20160.6\\system.drawing.common.5.0.0-preview.2.20160.6.nupkg.sha512"
+    "C:\\Users\\KHOAVO\\.nuget\\packages\\system.drawing.common\\5.0.0-preview.2.20160.6\\system.drawing.common.5.0.0-preview.2.20160.6.nupkg.sha512",
+    "C:\\Users\\KHOAVO\\.nuget\\packages\\system.runtime\\4.3.1\\system.runtime.4.3.1.nupkg.sha512"
   ],
   "logs": []
 }

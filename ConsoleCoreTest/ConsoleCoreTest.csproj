@@ -7,11 +7,15 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.2.20160.6" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="GenagateQrCode">
       <HintPath>..\GenagateQrCode\bin\Debug\GenagateQrCode.dll</HintPath>
+    </Reference>
+    <Reference Include="QrCodeMangagerCore">
+      <HintPath>..\QrCodeMangagerCore\bin\Debug\netcoreapp3.1\QrCodeMangagerCore.dll</HintPath>
     </Reference>
   </ItemGroup>
 

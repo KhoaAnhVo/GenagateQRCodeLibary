@@ -7,6 +7,7 @@ using QRCoder;
 using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace QrCodeManager
 {
@@ -16,7 +17,7 @@ namespace QrCodeManager
         /// <summary>
         /// Năm, Tháng, Ngày tạo Code
         /// </summary>
-        public DateTime DateCreate { get; set; } = DateTime.Now;
+        public string DateCreate { get; set; } = DateTime.Now.ToString("yyMMdd");
 
         /// <summary>
         /// Đối tượng mà code ráng cho. Mật định = 2;
@@ -34,7 +35,7 @@ namespace QrCodeManager
         /// Số hiệu của Line.
         /// range (0-9)
         /// </summary>
-        public string LineNumber { get; set; } = "";//1 char
+        public string LineNumber { get; set; } = "5";//1 char
 
         /// <summary>
         /// Số lần tạo code trong ngày
@@ -44,7 +45,7 @@ namespace QrCodeManager
         /// <summary>
         /// Tổng số code tạo ra trong 1 lần tạo.
         /// </summary>
-        public string RangeNumber { get; set; } = "100";
+        public string RangeNumber { get; set; } = "000000100";
         #endregion
 
         #region More info about code
@@ -63,10 +64,10 @@ namespace QrCodeManager
         /// </summary>
         /// <param name="rangenumber"></param>
         /// <returns></returns>
-        public string GetSingleCode(string IndexInRangeNumber)
+        public string CreateSingleCode(string IndexInRangeNumber)
         {
             string code = "";
-            code += DateCreate.ToString("yyMMdd");
+            code += DateCreate;
             code += ProType;
             code += LineNumber;
             code += CreateNo;
@@ -80,30 +81,32 @@ namespace QrCodeManager
 
             return code;
         }
+
         /// <summary>
         /// Tạo danh sách code 
         /// </summary>
         /// <param name="rangenumber"></param>
         /// <returns></returns>
-        public List<string> ListQRCodeBuff(string range)
+        public List<string> CreateListQrCode(string range)
         {
             Int32 rangenumber = Convert.ToInt32(range);
             List<string> result = new List<string>();
-            DateCreate = DateTime.Now;
+            DateCreate = DateTime.Now.ToString("yyMMdd");
             RangeNumber = range;
             for (Int32 i = 1; i <= rangenumber; i++)
             {
-                result.Add(GetSingleCode(i.ToString()));
+                result.Add(CreateSingleCode(i.ToString()));
             }
             return result;
         }
+
         /// <summary>
         /// Tạo danh sách hình ảnh QR code
         /// </summary>
         /// <param name="source">List code</param>
         /// <param name="pixels">Kích thước code</param>
         /// <returns></returns>
-        public List<Bitmap> ListQRImagesBuff(List<string> source, Int32 pixels)
+        public List<Bitmap> CreateListQrImages(List<string> source, Int32 pixels)
         {
             List<Bitmap> result = new List<Bitmap>();
             foreach (string item in source)
@@ -136,12 +139,13 @@ namespace QrCodeManager
         /// Content the SHA256 hash code of the DataCode
         /// </summary>
         protected List<string> DataCodeSHA256 { get; }
+
         /// <summary>
         /// Create buffer table content code, the hash code and the QRcode data
         /// </summary>
         /// <param name="buff_list_code">List code buffer</param>
         /// <returns></returns>
-        public DataTable QRCodeTable(List<string> buff, bool IsQRimageData)
+        public DataTable CreateQrCodeTable(List<string> buff, bool IsQRimageData)
         {
             //Create a table have 4 columns
             using (DataTable table = new DataTable())
@@ -188,9 +192,9 @@ namespace QrCodeManager
 
         #endregion
 
-        #region QRcode
+    #region QRcode genarate
         /// <summary>
-        /// 
+        /// Seting size of QR code image
         /// </summary>
         public int pixelsPerModule_QRpara { get; set; } = 4;
 
@@ -210,21 +214,42 @@ namespace QrCodeManager
             }
         }
 
+        public byte[] CreateBytePngQrCode(string data)
+        {
+            using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+            {
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+                PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
+                byte[] qrCodeAsPngByteArr = qrCode.GetGraphic(pixelsPerModule_QRpara);
+                return qrCodeAsPngByteArr;
+            }
+        }
 
 
         /// <summary>
-        /// Read QR image from bytes data
+        /// Convert data image byte array to bitmap
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">byte array data image</param>
         /// <returns></returns>
-        public Bitmap ReadQrImageBytes(byte[] data)
+        public Bitmap ConvertBytesToImage(byte[] data)
         {
-            using (MemoryStream stream = new MemoryStream(data))
-            {
-                return new Bitmap(stream);
-            }
-
+            //using (MemoryStream stream = new MemoryStream(data))
+            //{
+            //    stream.Position = 0;
+            //    Bitmap bmp = new Bitmap(stream,true);
+            //    return bmp;
+            //}
+            Bitmap bmp = new Bitmap(new System.IO.MemoryStream(data));
+            return bmp;
         }
+
+        
+        
+        /// <summary>
+        /// Convert bitmap data to byte array
+        /// </summary>
+        /// <param name="bmp">bitmap data</param>
+        /// <returns></returns>
         public byte[] ConvertImageToByte(Bitmap bmp)
         {
             var size = bmp.Width * bmp.Height / 8;
@@ -249,7 +274,7 @@ namespace QrCodeManager
 
             return buffer;
         }
-        #endregion
+    #endregion QRcode genarate
         #region Mã hóa và giải mã code bằng thuật toán MD5
         /// <summary>
         /// Key for encrypt and decrypt MD5 algorithm

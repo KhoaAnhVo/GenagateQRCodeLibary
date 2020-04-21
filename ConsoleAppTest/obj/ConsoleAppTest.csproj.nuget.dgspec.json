@@ -1,0 +1,117 @@
+{
+  "format": 1,
+  "restore": {
+    "K:\\VuLeTech\\Proj_Syngenta\\SourceCode\\Library\\GenagateQrCodeLib\\ConsoleAppTest\\ConsoleAppTest.csproj": {}
+  },
+  "projects": {
+    "K:\\VuLeTech\\Proj_Syngenta\\SourceCode\\Library\\GenagateQrCodeLib\\ConsoleAppTest\\ConsoleAppTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "K:\\VuLeTech\\Proj_Syngenta\\SourceCode\\Library\\GenagateQrCodeLib\\ConsoleAppTest\\ConsoleAppTest.csproj",
+        "projectName": "ConsoleAppTest",
+        "projectPath": "K:\\VuLeTech\\Proj_Syngenta\\SourceCode\\Library\\GenagateQrCodeLib\\ConsoleAppTest\\ConsoleAppTest.csproj",
+        "packagesPath": "C:\\Users\\KHOAVO\\.nuget\\packages\\",
+        "outputPath": "K:\\VuLeTech\\Proj_Syngenta\\SourceCode\\Library\\GenagateQrCodeLib\\ConsoleAppTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\KHOAVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.Diagnostics.DiagnosticSource": {
+              "target": "Package",
+              "version": "[5.0.0-preview.2.20160.6, )"
+            },
+            "System.Diagnostics.Process": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[5.0.0-preview.2.20160.6, )"
+            },
+            "System.IO": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.Compression": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.FileSystem": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.FileSystem.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Runtime.Serialization.Xml": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Xml.ReaderWriter": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Xml.XDocument": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Xml.XmlDocument": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Xml.XmlSerializer": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
