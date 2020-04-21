@@ -14,13 +14,15 @@ namespace ConsoleCoreTest
             //fiels
             string cmd="";
             string result="";
+            List<string> list_result;
             #region FORTEST
-            printF1("Range input: ");
-            cmd = Console.ReadLine();
-            List<string> RS = QrControl.ListQRCodeBuff(cmd);
-            var RSTb = QrControl.QRCodeTable(RS, false);
-            PrintTable(RSTb);
-        #endregion FORTEST
+
+        //printF1("Range input: ");
+        //cmd = Console.ReadLine();
+        //List<string> RS = QrControl.ListQRCodeBuff(cmd);
+        //var RSTb = QrControl.QRCodeTable(RS, false);
+        //PrintTable(RSTb);
+            #endregion FORTEST
 
 
         CMD:
@@ -35,13 +37,20 @@ namespace ConsoleCoreTest
                 case "help":
                     printF1("HELP\n");
                     goto HELP;
+
+
                 case "csc": //Create single code
                     printF1("Create a single code\n");
-                    goto CreateASingleCode;
+                    goto CSC;
                 
                 case "crc":
-                    printF1("Create a range code\n");
-                    goto CreateRangeCode;
+                    printF1("Create a range full code\n");
+                    goto CRC;
+                case "clc":
+                    printF1("Create a list range code\n");
+                    goto CLC; ;
+
+
 
                 case "exit":
                     printF1("EXIT");
@@ -54,33 +63,52 @@ namespace ConsoleCoreTest
             
             goto CMD;
         #endregion COMMAND
-            
+
         HELP:
             #region HELP
-            Console.ReadLine();
+            string help = 
+                "       csc     : Create a single code\n" +
+                "       crc     : Create a range code\n" +
+                "       clc     : Create a list range code\n" +
+                "       " +
+                "" +
+                "" +
+                "\n" +
+                "       clear   : clear grean!\n" +
+                "       help    : go to help!\n" +
+                "       exit    : exit app!\n";
+            Console.Write(help);
             goto CMD;
         #endregion HELP
 
-        CreateASingleCode:
-            #region CREATESINGLECODE
+        CSC:
+            #region CREATE A SINGLE CODE
             printF1("Index of code: ");
             cmd = Console.ReadLine();
             result = QrControl.GetSingleCode(cmd);
             printResult(result);
             goto CMD;
-        #endregion CREATESINGLECODE
+        #endregion CREATE A SINGLE CODE
 
-        CreateRangeCode:
-            #region CreateRangeCode
+        CRC:
+            #region Create A Range Code
             printF1("Range input: ");
             cmd = Console.ReadLine();
-            List<string> List_result = QrControl.ListQRCodeBuff(cmd);
-            foreach (string item in List_result)
-            {
-                printF1(item + "\n");
-            }
+            List<string> RS = QrControl.ListQRCodeBuff(cmd);
+            var RSTb = QrControl.QRCodeTable(RS, false);
+            PrintTable(RSTb);
+            goto CMD;
         #endregion CreateRangeCode
 
+
+        CLC:
+            #region Create list code
+            printF1("Index of code: ");
+            cmd = Console.ReadLine();
+            list_result = QrControl.ListQRCodeBuff(cmd);
+            PrintList(list_result);
+            goto CMD;
+        #endregion Create list code
         EXIT:
             Console.ReadKey();
         }
@@ -99,7 +127,7 @@ namespace ConsoleCoreTest
             {
                 foreach (var item in dataRow.ItemArray)
                 {
-                    Console.WriteLine(item);
+                    printResult(item.ToString());
                 }
             }
         }
@@ -107,7 +135,7 @@ namespace ConsoleCoreTest
         {
             foreach (string item in data)
             {
-                printF1(item + "\n");
+                printResult(item);
             }
         }
         
