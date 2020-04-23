@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.IO;
 using System.Drawing.Imaging;
+using System.Linq;
 
 namespace QrCodeManager
 {
@@ -46,6 +47,8 @@ namespace QrCodeManager
         /// Tổng số code tạo ra trong 1 lần tạo.
         /// </summary>
         public string RangeNumber { get; set; } = "000000100";
+
+
         #endregion
 
         #region More info about code
@@ -82,6 +85,18 @@ namespace QrCodeManager
             return code;
         }
 
+        public string CreateSingleCode2(string UnixTimeSeconds, string IndexInRangeNumber)
+        {
+            string buff = "";
+            int len = UnixTimeSeconds.Length + IndexInRangeNumber.Length;
+
+            for (int j = 0; j < (20 - len); j++)
+            {
+                buff += "0";
+            }
+            return UnixTimeSeconds + buff + IndexInRangeNumber;
+        }
+
         /// <summary>
         /// Tạo danh sách code 
         /// </summary>
@@ -96,6 +111,35 @@ namespace QrCodeManager
             for (Int32 i = 1; i <= rangenumber; i++)
             {
                 result.Add(CreateSingleCode(i.ToString()));
+            }
+            return result;
+        }
+
+        public string CreateGroupCodeNameNow()
+        {
+            long unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            return unixTime.ToString();
+        }
+        public string GetGroupNameFromListCode(List<string> ListCode)
+        {
+            var result = "";
+            if (ListCode.Count > 0)
+            {
+                result = ListCode.ElementAt(0).Substring(0, 10);
+            }
+            else
+            {
+                result = "[{\"Error\":\"List is empty!\"}]";
+            }
+            return result;
+        }
+        public List<string> CreateListQrCode1(string groupCodeName, string range)
+        {
+            Int32 rangeNum = Convert.ToInt32(range);
+            var result = new List<string>();
+            for (Int32 i = 1; i <= rangeNum; i++)
+            {
+                result.Add(CreateSingleCode2(groupCodeName, i.ToString()));
             }
             return result;
         }
@@ -145,46 +189,52 @@ namespace QrCodeManager
         /// </summary>
         /// <param name="buff_list_code">List code buffer</param>
         /// <returns></returns>
-        public DataTable CreateQrCodeTable(List<string> buff, bool IsQRimageData)
+        public DataTable CreateGroupCodeTable(List<string> buff)
         {
             //Create a table have 4 columns
             using (DataTable table = new DataTable())
             {
                 table.Columns.Add("Id", typeof(Int32));
-                table.Columns.Add("CodeData", typeof(string));
-                table.Columns.Add("MD5CodeData", typeof(string));
-                table.Columns.Add("SHA1CodeData", typeof(string));
-                table.Columns.Add("SHA256CodeData", typeof(string));
-                if (IsQRimageData)
+                table.Columns.Add("Code", typeof(string));
+                table.Columns.Add("CodeMD5", typeof(string));
+                table.Columns.Add("CodeSHA1", typeof(string));
+                table.Columns.Add("CodeSHA256", typeof(string));
+                table.Columns.Add("QRImageByteArray", typeof(byte[]));
+                foreach (string item in buff)
                 {
-                    table.Columns.Add("QRImageData", typeof(Bitmap));
-                    foreach (string item in buff)
-                    {
-                        table.Rows.Add(
-                            buff.IndexOf(item)
-                            , item
-                            , ToCodeMD5(item)
-                            , ToCodeSHA1(item)
-                            , ToCodeSHA256(item)
-                            , CreateBitmapQrCode(item)
-                            );
-                    }
+                    table.Rows.Add(
+                        buff.IndexOf(item)
+                        , item
+                        , ToCodeMD5(item)
+                        , ToCodeSHA1(item)
+                        , ToCodeSHA256(item)
+                        , CreateBytePngQrCode(item)
+                        );
                 }
-                else
+                return table;
+            }
+        }
+        public DataTable CreateGroupCodeTable(string groupCodeName, string range)
+        {
+            var buff = CreateListQrCode1(groupCodeName, range);
+            using (DataTable table = new DataTable())
+            {
+                table.Columns.Add("Id", typeof(Int32));
+                table.Columns.Add("Code", typeof(string));
+                table.Columns.Add("CodeMD5", typeof(string));
+                table.Columns.Add("CodeSHA1", typeof(string));
+                table.Columns.Add("CodeSHA256", typeof(string));
+                table.Columns.Add("QRImageByteArray", typeof(byte[]));
+                foreach (string item in buff)
                 {
-                    table.Columns.Add("QRImageData", typeof(byte[]));
-                    foreach (string item in buff)
-                    {
-                        table.Rows.Add(
-                            buff.IndexOf(item)
-                            , item
-                            , ToCodeMD5(item)
-                            , ToCodeSHA1(item)
-                            , ToCodeSHA256(item)
-                            , ConvertImageToByte(CreateBitmapQrCode(item))
-                            );
-
-                    }
+                    table.Rows.Add(
+                        buff.IndexOf(item)
+                        , item
+                        , ToCodeMD5(item)
+                        , ToCodeSHA1(item)
+                        , ToCodeSHA256(item)
+                        , CreateBytePngQrCode(item)
+                        );
                 }
                 return table;
             }
@@ -192,7 +242,7 @@ namespace QrCodeManager
 
         #endregion
 
-    #region QRcode genarate
+        #region QRcode genarate
         /// <summary>
         /// Seting size of QR code image
         /// </summary>
@@ -213,7 +263,11 @@ namespace QrCodeManager
                 return qrCodeImage;
             }
         }
-
+        /// <summary>
+        /// Create a QR code byte[] data
+        /// </summary>
+        /// <param name="data">Your code</param>
+        /// <returns></returns>
         public byte[] CreateBytePngQrCode(string data)
         {
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
@@ -224,7 +278,6 @@ namespace QrCodeManager
                 return qrCodeAsPngByteArr;
             }
         }
-
 
         /// <summary>
         /// Convert data image byte array to bitmap
@@ -243,8 +296,6 @@ namespace QrCodeManager
             return bmp;
         }
 
-        
-        
         /// <summary>
         /// Convert bitmap data to byte array
         /// </summary>
@@ -274,7 +325,7 @@ namespace QrCodeManager
 
             return buffer;
         }
-    #endregion QRcode genarate
+        #endregion QRcode genarate
         #region Mã hóa và giải mã code bằng thuật toán MD5
         /// <summary>
         /// Key for encrypt and decrypt MD5 algorithm
@@ -393,107 +444,5 @@ namespace QrCodeManager
 
         #endregion
     }
-    /// <summary>
-    /// Xử lý giao tiếp với Database
-    /// </summary>
-    public class QrCodeDataBase
-    {
-        //Tạo thông tin kết nối đến csdl 
-        SqlConnectionStringBuilder SqlBuilder = new SqlConnectionStringBuilder();
-        public QrCodeDataBase()
-        {
-            SqlBuilder.DataSource = "localhost";
-            SqlBuilder.UserID = "Admin_Khoa";
-            SqlBuilder.Password = "khoanhvo";
-            SqlBuilder.InitialCatalog = "Syngenta_test";
-        }
-        /// <summary>
-        /// Excute query cmd form text
-        /// </summary>
-        /// <param name="cmd_txt">Text Command</param>
-        public bool SqlCmdExcuteQuery(StringBuilder cmd_txt)
-        {
-            bool result;
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(SqlBuilder.ConnectionString))
-                {
-                    conn.Open(); // thuc hien ket noi voi sql
-                    using (SqlCommand cmd = new SqlCommand(cmd_txt.ToString(), conn))
-                    {
-                        cmd.ExecuteNonQuery();
-                        result = true;
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                //MessageBox.Show(ex.ToString());
-                result = false;
-            }
-            return result;
-        }
-        /// <summary>
-        /// Excute query cmd from _.sql file save in direction source folder..\bin\Debug
-        /// </summary>
-        /// <param name="query_file_name">File .sql name</param>
-        /// <returns></returns>
-        public bool SqlCmdExcuteQuery(string query_file_name)
-        {
-            bool result;
-            //get direction to source code
-            string Path = Environment.CurrentDirectory;
-            string cmd_txt = File.ReadAllText(Path + @"\" + query_file_name);
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(SqlBuilder.ConnectionString))
-                {
-                    conn.Open(); // thuc hien ket noi voi sql
-                    using (SqlCommand cmd = new SqlCommand(cmd_txt, conn))
-                    {
-                        cmd.ExecuteNonQuery();
-                        result = true;
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                //MessageBox.Show(ex.ToString());
-                result = false;
-            }
-            return result;
-        }
-        /// <summary>
-        /// Get list of tables in database
-        /// </summary>
-        /// <returns></returns>
-        public List<string> GetListTableDB()
-        {
-            List<string> result = new List<string>();
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(SqlBuilder.ConnectionString))
-                {
-                    string cmd_txt = string.Format(@"select TABLE_NAME from information_schema.tables;");
-                    conn.Open();
-                    using (SqlCommand command = new SqlCommand(cmd_txt, conn))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                result.Add(reader.GetString(0));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
 
-            }
-            return result;
-        }
-        //Save dữ liệu lên 
-    }
 }

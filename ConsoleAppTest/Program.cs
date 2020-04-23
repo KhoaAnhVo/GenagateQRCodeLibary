@@ -2,8 +2,7 @@
 using QrCodeManager;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Diagnostics;
-using System.Linq;
+using SQLServerSupportLib;
 
 namespace ConsoleCoreTest
 {
@@ -17,46 +16,21 @@ namespace ConsoleCoreTest
             Console.WriteLine("Start");
             string cmd = "";
             string result = "";
-            string path = @"K:\DebugTest\";
+            string path = @"K:\DebugTest\Convert\";
             List<string> list_result;
             Bitmap bmp;
             byte[] byteData;
             #endregion Fiels
 
             #region FOR TEST
-            //proCS.printF1("Code index input:\n");
-            //cmd = Console.ReadLine();
-            //// create a string code
-            //cmd = QrControl.CreateSingleCode(cmd);
-            //proCS.printF2("Code Created", cmd+"\n");
-
-            //// create bitmap by code string
-            //bmp = QrControl.CreateBitmapQrCode(cmd);
-            //proCS.printF2("Creating bitmap data", "OK\n");
-
-            ////save to K:\DebugTest\Convert
-            //path += @"Convert\";
-            //proCS.saveImage(path, cmd, bmp);
-            //proCS.printF2("Save QR Code Image to", path+"\n");
-
-            ////Create byte data
-            //byteData = QrControl.CreateBytePngQrCode(cmd);
-            //proCS.printF2("Create QRcode type png Byte[]", "OK\n");
-
-            ////Create byte data
-            //bmp = QrControl.ConvertBytesToImage(byteData);
-            //proCS.printF2("Convert Byte[] Array to Bitmap", "OK\n");
-
-            ////save to K:\DebugTest\Convert
-            //proCS.saveImage(path, "C" + cmd, bmp);
-            //proCS.printF2("Save QR Code Image to", path+"\n");
-
-            ////save byte[] data to .txt
-            //proCS.printF2("Byte Array Data", "OK\n");
-
-            //proCS.writeTextToFile(path, cmd + ".txt", byteData);
-
-            //proCS.OpenFolder(@"K:\DebugTest\Convert\");
+            QrCodeDataBase QrDB = new QrCodeDataBase();
+        H:
+            var DB = QrControl.CreateBytePngQrCode("VO ANH KHOA");
+            var A = QrControl.ConvertBytesToImage(DB);
+            proCS.saveImage("K:\\","test",A);
+            proCS.OpenFolder("K:\\");
+            Console.ReadKey();
+            goto H;
         #endregion FOR TEST
 
 
@@ -147,7 +121,7 @@ namespace ConsoleCoreTest
             proCS.printF1("Range input: ");
             cmd = Console.ReadLine();
             List<string> RS = QrControl.CreateListQrCode(cmd);
-            var RSTb = QrControl.CreateQrCodeTable(RS, false);
+            var RSTb = QrControl.CreateGroupCodeTable(RS);
             proCS.PrintTable(RSTb);
             goto CMD;
         #endregion CreateRangeCode
@@ -178,7 +152,7 @@ namespace ConsoleCoreTest
             {
                 proCS.printResult(e.ToString() + "\n");
             }
-
+            goto CMD;
         #endregion SIMG
 
         ABC:
@@ -191,10 +165,9 @@ namespace ConsoleCoreTest
 
             // create bitmap by code string
             bmp = QrControl.CreateBitmapQrCode(cmd);
-            proCS.printF2("Creating bitmap data", "OK\n");
+            proCS.printF2("Create bitmap data", "OK\n");
 
             //save to K:\DebugTest\Convert
-            path += @"Convert\";
             proCS.saveImage(path, cmd, bmp);
             proCS.printF2("Save QR Code Image to", path + "\n");
 
@@ -218,6 +191,7 @@ namespace ConsoleCoreTest
             proCS.OpenFolder(@"K:\DebugTest\Convert\");
             goto CMD;
         #endregion TEST
+
         EXIT:
             Console.ReadKey();
         }
@@ -244,6 +218,37 @@ namespace ConsoleCoreTest
 
             cmd = qrCodeControl.RangeNumber;
             proCS.printF2("[6] Range", cmd);
+        }
+
+        static void test_CreateListCode2(QrCodeControl qrCodeControl)
+        {
+        H:
+            string cmd;
+            proCS.printF1("Range input:");
+            string abc;
+            abc = Console.ReadLine();
+            cmd = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+            var L = qrCodeControl.CreateListQrCode1(cmd, abc);
+            proCS.PrintList(L);
+            Console.WriteLine();
+            Console.ReadKey();
+            goto H;
+        }
+
+
+        static void test_UpdateDbGroupCodeInfo()
+        {
+            QrCodeDataBase QrDB = new QrCodeDataBase();
+            try
+            {
+                QrDB.UpdateDbGroupCodeInfo("1234567890", "NV007", "AGI code", "1010", DateTime.Now.ToString());
+
+            }
+            catch (Exception e)
+            {
+                proCS.printF1(e.ToString());
+            }
+            Console.ReadKey();
         }
     }
 }

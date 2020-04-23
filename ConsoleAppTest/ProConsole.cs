@@ -80,7 +80,7 @@ namespace ConsoleCoreTest
                 writer.WriteLine(content);
             }
         }
-
+        //public long unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         //https://stackoverflow.com/questions/10337410/saving-data-to-a-file-in-c-sharp
         /// <summary>
         /// Writes the given object instance to a binary file.

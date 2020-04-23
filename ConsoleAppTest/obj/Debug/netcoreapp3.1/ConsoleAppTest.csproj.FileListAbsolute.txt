@@ -21,4 +21,12 @@ K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bi
 K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
 K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\SQLServerSupportLib.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\SQLServerSupportLib.pdb
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\ConsoleAppTest\obj\Debug\netcoreapp3.1\ConsoleAppTest.csproj.CoreCompileInputs.cache
