@@ -8,9 +8,9 @@ using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.IO;
 
-namespace QrCodeManager
+namespace QrCodeManagernet
 {
-    class QrCodeControl
+    public class QrCodeControl
     {
         #region  Setup Code
         /// <summary>
@@ -63,14 +63,21 @@ namespace QrCodeManager
         /// </summary>
         /// <param name="rangenumber"></param>
         /// <returns></returns>
-        private string GetSingleCode(string IndexInRangeNumber)
+        public string GetSingleCode(string IndexInRangeNumber)
         {
             string code = "";
             code += DateCreate.ToString("yyMMdd");
             code += ProType;
             code += LineNumber;
             code += CreateNo;
+            string buff = "0";
+            for (int j = 0; j <= (7 - IndexInRangeNumber.ToString().Length); j++) //Cần cải thiện vòng lập này.
+            {
+                buff += "0";
+            }
+            code += buff;
             code += IndexInRangeNumber;
+
             return code;
         }
         /// <summary>
@@ -78,19 +85,15 @@ namespace QrCodeManager
         /// </summary>
         /// <param name="rangenumber"></param>
         /// <returns></returns>
-        public List<string> ListQRCodeBuff(Int32 rangenumber)
+        public List<string> ListQRCodeBuff(string range)
         {
+            Int32 rangenumber = Convert.ToInt32(range);
             List<string> result = new List<string>();
             DateCreate = DateTime.Now;
-            RangeNumber = rangenumber.ToString();
+            RangeNumber = range;
             for (Int32 i = 1; i <= rangenumber; i++)
             {
-                string buff = "0";
-                for (int j = 0; j <= (7 - i.ToString().Length); j++) //Cần cải thiện vòng lập này.
-                {
-                    buff += "0";
-                }
-                result.Add(GetSingleCode(buff));
+                result.Add(GetSingleCode(i.ToString()));
             }
             return result;
         }
@@ -134,11 +137,11 @@ namespace QrCodeManager
         /// </summary>
         protected List<string> DataCodeSHA256 { get; }
         /// <summary>
-        /// Create buffer table content code, the hash code and the QRimages
+        /// Create buffer table content code, the hash code and the QRcode data
         /// </summary>
         /// <param name="buff_list_code">List code buffer</param>
         /// <returns></returns>
-        public DataTable QRCodeTable(List<string> buff)
+        public DataTable QRCodeTable(List<string> buff, bool IsQRimageData)
         {
             //Create a table have 4 columns
             using (DataTable table = new DataTable())
@@ -148,17 +151,36 @@ namespace QrCodeManager
                 table.Columns.Add("MD5CodeData", typeof(string));
                 table.Columns.Add("SHA1CodeData", typeof(string));
                 table.Columns.Add("SHA256CodeData", typeof(string));
-                table.Columns.Add("QRImageData", typeof(Bitmap));
-                foreach (string item in buff)
+                if (IsQRimageData)
                 {
-                    table.Rows.Add(
-                        buff.IndexOf(item)
-                        , item
-                        , ToCodeMD5(item)
-                        , ToCodeSHA1(item)
-                        , ToCodeSHA256(item)
-                        , CreateBitmapQrCode(item)
-                        );
+                    table.Columns.Add("QRImageData", typeof(Bitmap));
+                    foreach (string item in buff)
+                    {
+                        table.Rows.Add(
+                            buff.IndexOf(item)
+                            , item
+                            , ToCodeMD5(item)
+                            , ToCodeSHA1(item)
+                            , ToCodeSHA256(item)
+                            , CreateBitmapQrCode(item)
+                            );
+                    }
+                }
+                else
+                {
+                    table.Columns.Add("QRImageData", typeof(byte[]));
+                    foreach (string item in buff)
+                    {
+                        table.Rows.Add(
+                            buff.IndexOf(item)
+                            , item
+                            , ToCodeMD5(item)
+                            , ToCodeSHA1(item)
+                            , ToCodeSHA256(item)
+                            , ConvertImageToByte(CreateBitmapQrCode(item))
+                            );
+                       
+                    }
                 }
                 return table;
             }
@@ -186,6 +208,43 @@ namespace QrCodeManager
                 Bitmap qrCodeImage = qrCode.GetGraphic(pixelsPerModule_QRpara);
                 return qrCodeImage;
             }
+        }
+
+        /// <summary>
+        /// Convert bitmap image to byte array
+        /// </summary>
+        /// <param name="img">Image bitmap format</param>
+        /// <returns></returns>
+        public byte[] ConvertImageToByte(Bitmap img)
+        {
+            using (var stream = new MemoryStream())
+            {
+                return stream.ToArray();
+            }
+        }
+        public static byte[] Convert1(Bitmap bmp)
+        {
+            var size = bmp.Width * bmp.Height / 8;
+            var buffer = new byte[size];
+
+            var i = 0;
+            for (var y = 0; y < bmp.Height; y++)
+            {
+                for (var x = 0; x < bmp.Width; x++)
+                {
+                    var color = bmp.GetPixel(x, y);
+                    if (color.B != 255 || color.G != 255 || color.R != 255)
+                    {
+                        var pos = i / 8;
+                        var bitInByteIndex = x % 8;
+
+                        buffer[pos] |= (byte)(1 << 7 - bitInByteIndex);
+                    }
+                    i++;
+                }
+            }
+
+            return buffer;
         }
         /// <summary>
         /// Read QR image from bytes data
@@ -259,6 +318,7 @@ namespace QrCodeManager
             }
         }
         #endregion
+
         #region Hash code MD5, SHA1, SHA256
         /// <summary>
         /// Hash the text by MD5 algorithm
@@ -320,7 +380,7 @@ namespace QrCodeManager
     /// <summary>
     /// Xử lý giao tiếp với Database
     /// </summary>
-    class QrCodeDataBase
+    public class QrCodeDataBase
     {
         //Tạo thông tin kết nối đến csdl 
         SqlConnectionStringBuilder SqlBuilder = new SqlConnectionStringBuilder();
@@ -367,7 +427,7 @@ namespace QrCodeManager
             bool result;
             //get direction to source code
             string Path = Environment.CurrentDirectory;
-            string cmd_txt = File.ReadAllText(Path+@"\"+query_file_name);
+            string cmd_txt = File.ReadAllText(Path + @"\" + query_file_name);
             try
             {
                 using (SqlConnection conn = new SqlConnection(SqlBuilder.ConnectionString))
@@ -412,7 +472,7 @@ namespace QrCodeManager
                     }
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
 
             }

@@ -1,0 +1,12 @@
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\bin\Debug\QrCodeManager.exe.config
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\bin\Debug\QrCodeManager.exe
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\bin\Debug\QrCodeManager.pdb
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\bin\Debug\QRCoder.dll
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManagerUserControl.csprojAssemblyReference.cache
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManager.Properties.Resources.resources
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManager.QRCodeManager.resources
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManagerUserControl.csproj.GenerateResource.cache
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManagerUserControl.csproj.CoreCompileInputs.cache
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManagerUserControl.csproj.CopyComplete
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManager.exe
+K:\VuLeTech\Proj_Syngenta\SourceCode\Library\GenagateQrCodeLib\QrCodeManager\obj\Debug\QrCodeManager.pdb
